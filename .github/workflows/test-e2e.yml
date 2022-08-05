@@ -74,7 +74,7 @@ jobs:
     runs-on: ${{ matrix.platform }}
     timeout-minutes: 60
     steps:
-      - name: Setup WSL
+      - name: Install WSL
         uses: Vampire/setup-wsl@v1.3.1
         with:
           distribution: Ubuntu-22.04
@@ -91,7 +91,8 @@ jobs:
           target: wasm32-unknown-unknown
       - name: Add Windows rustup path to WSL ubuntu PATH
         run: |
-          echo 'export PATH="$PATH:/c/Users/runneradmin/.cargo/bin/rustup.exe"' >> ~/.bashrc
+          echo $PWD
+          echo 'export PATH="$PATH:/mnt/c/Users/runneradmin/.cargo/bin/rustup.exe"' >> ~/.bashrc
           source ~/.bashrc
       # TODO: might need cmake install too
       # - name: Install Rust
