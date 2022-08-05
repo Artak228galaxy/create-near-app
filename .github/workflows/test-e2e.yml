@@ -7,54 +7,54 @@ on:
     # branches:
     #   - "master"
 jobs:
-  tests-bash:
-    strategy:
-      fail-fast: false
-      matrix:
-        platform: [ubuntu-latest, macos-latest]
-        nodejs: [16]
-        contract: [js, rust, assemblyscript]
-        frontend: [react, vanilla, none]
-        tests: [js, rust]
-    #        exclude:
-    #          - frontend: vanilla
-    #          - frontend: none
-    #        include:
-    #          - contract: js
-    #            frontend: vanilla
-    #            tests: js
-    #          - contract: js
-    #            frontend: none
-    #            tests: js
-    runs-on: ${{ matrix.platform }}
-    timeout-minutes: 60
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.nodejs }}
-      - name: Install modules
-        run: |
-          npm install
-          npm run build
-      - name: Scaffold template
-        run: |
-          node index.js _testrun --contract ${{ matrix.contract }} --frontend ${{ matrix.frontend }} --tests ${{ matrix.tests }} --install
-      - name: Build template
-        env:
-          NEAR_ENV: ci
-          IS_GITHUB_ACTION: true
-        run: |
-          cd _testrun
-          npm run build
-      - name: Test template
-        if: matrix.platform != 'macos-latest'
-        env:
-          NEAR_ENV: ci
-          IS_GITHUB_ACTION: true
-        run: |
-          cd _testrun
-          npm run test
+  # tests-bash:
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       platform: [ubuntu-latest, macos-latest]
+  #       nodejs: [16]
+  #       contract: [js, rust, assemblyscript]
+  #       frontend: [react, vanilla, none]
+  #       tests: [js, rust]
+  #   #        exclude:
+  #   #          - frontend: vanilla
+  #   #          - frontend: none
+  #   #        include:
+  #   #          - contract: js
+  #   #            frontend: vanilla
+  #   #            tests: js
+  #   #          - contract: js
+  #   #            frontend: none
+  #   #            tests: js
+  #   runs-on: ${{ matrix.platform }}
+  #   timeout-minutes: 60
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v2
+  #       with:
+  #         node-version: ${{ matrix.nodejs }}
+  #     - name: Install modules
+  #       run: |
+  #         npm install
+  #         npm run build
+  #     - name: Scaffold template
+  #       run: |
+  #         node index.js _testrun --contract ${{ matrix.contract }} --frontend ${{ matrix.frontend }} --tests ${{ matrix.tests }} --install
+  #     - name: Build template
+  #       env:
+  #         NEAR_ENV: ci
+  #         IS_GITHUB_ACTION: true
+  #       run: |
+  #         cd _testrun
+  #         npm run build
+  #     - name: Test template
+  #       if: matrix.platform != 'macos-latest'
+  #       env:
+  #         NEAR_ENV: ci
+  #         IS_GITHUB_ACTION: true
+  #       run: |
+  #         cd _testrun
+  #         npm run test
 
   tests-wsl:
     defaults:
@@ -86,9 +86,12 @@ jobs:
           sudo apt-get install -y nodejs
       - name: Install Rust
         run: |
+          echo "fetching latest stable release of rust"
           curl https://sh.rustup.rs -sSf | sh
+          echo "running cargo env"
           source $HOME/.cargo/env
-          rustup target add wasm32-unknown-unknown
+          echo "running target add wasm-pack"
+          rustup target add -y wasm32-unknown-unknown
       - name: Install modules
         run: |
           npm install
