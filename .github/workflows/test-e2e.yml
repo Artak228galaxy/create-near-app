@@ -84,25 +84,29 @@ jobs:
           sudo apt-get install curl
           curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
           sudo apt-get install -y nodejs
-      # - name: Install Rust
-      #   uses: actions-rs/toolchain@v1
-      #   with:
-      #     toolchain: stable
-      #     target: wasm32-unknown-unknown
-      # TODO: might need cmake install too
       - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: wasm32-unknown-unknown
+      - name: Add Rust to PATH
         run: |
-          sudo apt install curl -y
-          echo "fetching latest stable release of rust"
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path --default-toolchain stable
-          echo "running cargo env"
-          source $HOME/.cargo/env
-          echo "running source bashrc"
-          source $HOME/.bashrc
-          echo "running source profile"
-          source $HOME/.profile
-          echo "running target add wasm-pack"
-          rustup target add wasm32-unknown-unknown
+          echo 'export PATH="$PATH:/c/Program Files/Rust/bin"' >> ~/.bashrc
+          source ~/.bashrc
+      # TODO: might need cmake install too
+      # - name: Install Rust
+      #   run: |
+      #     sudo apt install curl -y
+      #     echo "fetching latest stable release of rust"
+      #     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path --default-toolchain stable
+      #     echo "running cargo env"
+      #     source $HOME/.cargo/env
+      #     echo "running source bashrc"
+      #     source $HOME/.bashrc
+      #     echo "running source profile"
+      #     source $HOME/.profile
+      #     echo "running target add wasm-pack"
+      #     rustup target add wasm32-unknown-unknown
       - name: Update rustup
         run: |
           rustup update
