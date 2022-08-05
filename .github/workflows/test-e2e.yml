@@ -79,7 +79,7 @@ jobs:
         with:
           distribution: Ubuntu-22.04
       - uses: actions/checkout@v2
-      - name: Setup node
+      - name: Install Node
         run: |
           sudo apt-get install curl
           curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
@@ -87,7 +87,7 @@ jobs:
       - name: Install Rust
         run: |
           echo "fetching latest stable release of rust"
-          curl https://sh.rustup.rs -sSf | sh
+          curl https://sh.rustup.rs -sSf -y | sh
           echo "running cargo env"
           source $HOME/.cargo/env
           echo "running target add wasm-pack"
