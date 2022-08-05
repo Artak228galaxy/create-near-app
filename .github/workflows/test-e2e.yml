@@ -89,11 +89,10 @@ jobs:
         with:
           toolchain: stable
           target: wasm32-unknown-unknown
-      - name: Add rustup to PATH
+      - name: Add Windows rustup path to WSL ubuntu PATH
         run: |
-          source $HOME/.cargo/env
-          source $HOME/.bashrc
-          source $HOME/.profile
+          echo 'export PATH="$PATH:/c/Users/runneradmin/.cargo/bin/rustup.exe"' >> ~/.bashrc
+          source ~/.bashrc
       # TODO: might need cmake install too
       # - name: Install Rust
       #   run: |
