@@ -3,8 +3,9 @@ on:
   workflow_dispatch:
 
   push:
-    branches:
-      - "master"
+    # TODO: uncomment this when ready
+    # branches:
+    #   - "master"
 jobs:
   tests-bash:
     strategy:
