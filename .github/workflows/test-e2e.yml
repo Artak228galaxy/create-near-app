@@ -92,7 +92,7 @@ jobs:
       # TODO: might need cmake install too
       - name: Install Rust
         run: |
-          sudo apt get install curl -y
+          sudo apt install curl -y
           echo "fetching latest stable release of rust"
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh | printf "1\n1\n"
           echo "running cargo env"
