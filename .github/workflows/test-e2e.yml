@@ -84,22 +84,28 @@ jobs:
           sudo apt-get install curl
           curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
           sudo apt-get install -y nodejs
+      # - name: Install Rust
+      #   uses: actions-rs/toolchain@v1
+      #   with:
+      #     toolchain: stable
+      #     target: wasm32-unknown-unknown
+      # TODO: might need cmake install too
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          target: wasm32-unknown-unknown
+        run: |
+          sudo apt get install curl -y
+          echo "fetching latest stable release of rust"
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh | printf "1\n1\n"
+          echo "running cargo env"
+          source $HOME/.cargo/env
+          echo "running source bashrc"
+          source $HOME/.bashrc
+          echo "running source profile"
+          source $HOME/.profile
+          echo "running target add wasm-pack"
+          rustup target add wasm32-unknown-unknown
       - name: Update rustup
         run: |
           rustup update
-      # - name: Install Rust
-      #   run: |
-      #     echo "fetching latest stable release of rust"
-      #     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-      #     echo "running cargo env"
-      #     source $HOME/.cargo/env
-      #     echo "running target add wasm-pack"
-      #     rustup target add -y wasm32-unknown-unknown
       - name: Install modules
         run: |
           npm install
