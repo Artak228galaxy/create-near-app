@@ -89,6 +89,9 @@ jobs:
         with:
           toolchain: stable
           target: wasm32-unknown-unknown
+      - name: Update rustup
+        run: |
+          rustup update
       # - name: Install Rust
       #   run: |
       #     echo "fetching latest stable release of rust"
