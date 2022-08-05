@@ -94,7 +94,7 @@ jobs:
         run: |
           sudo apt install curl -y
           echo "fetching latest stable release of rust"
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh | printf "1\n1\n"
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path --default-toolchain stable
           echo "running cargo env"
           source $HOME/.cargo/env
           echo "running source bashrc"
