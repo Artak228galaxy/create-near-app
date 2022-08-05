@@ -89,10 +89,11 @@ jobs:
         with:
           toolchain: stable
           target: wasm32-unknown-unknown
-      - name: Add Rust to PATH
+      - name: Add rustup to PATH
         run: |
-          echo 'export PATH="$PATH:/c/Program Files/Rust/bin"' >> ~/.bashrc
-          source ~/.bashrc
+          source $HOME/.cargo/env
+          source $HOME/.bashrc
+          source $HOME/.profile
       # TODO: might need cmake install too
       # - name: Install Rust
       #   run: |
